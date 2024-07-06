@@ -223,6 +223,10 @@ h1 {
   border-color: #ffab04;
   color: #1f1a09;
 }
+.button:active {
+  transform: scale(1.2);
+  transition-duration: 800ms;
+}
 
 .text-button {
   font: inherit;
