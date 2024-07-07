@@ -2,60 +2,60 @@ import { createContext, useReducer } from "react";
 
 
 const CartContext = createContext({
-    items:[],
-    addItem : (item)=>{},
-    removeItem : (id)=>{}
+    items: [],
+    addItem: (item) => { },
+    removeItem: (id) => { }
 })
 
 
-function cartReducer(state,action){
+function cartReducer(state, action) {
     if (action.type === 'ADD') {
-        const itemIndex = state.items.findIndex((item)=>item.id === action.item.id)
+        const itemIndex = state.items.findIndex((item) => item.id === action.item.id)
         const updatedItems = [...state.items]
-        
+
         if (itemIndex > -1) {
             let foundItem = state.items[itemIndex]
             const updatedItem = {
                 ...foundItem,
-                quantity : foundItem.quantity + 1
+                quantity: foundItem.quantity + 1
             }
-            updatedItems[itemIndex]=updatedItem
+            updatedItems[itemIndex] = updatedItem
         } else {
-            updatedItems.push({...action.item, quantity : 1})
+            updatedItems.push({ ...action.item, quantity: 1 })
         }
-        return {...state, items : updatedItems}
+        return { ...state, items: updatedItems }
     }
     if (action.type === "REMOVE") {
-        const itemIndex = state.items.findIndex((item)=>item.id === action.id)
+        const itemIndex = state.items.findIndex((item) => item.id === action.id)
         const updatedItems = [...state.items]
 
-        if (itemIndex > 1) {
-            let foundItem = state.item[itemIndex]
+        if (updatedItems[itemIndex].quantity > 1) {
+            let foundItem = updatedItems[itemIndex]
             const updatedItem = {
                 ...foundItem,
-                quantity : foundItem.quantity - 1
+                quantity: foundItem.quantity - 1
             }
-            updatedItems[itemIndex]=updatedItem
+            updatedItems[itemIndex] = updatedItem
         } else {
-            updatedItems.splice(itemIndex,1)
+            updatedItems.splice(itemIndex, 1)
         }
-        return {...state, items : updatedItems}
+        return { ...state, items: updatedItems }
     }
     return state;
 }
 
-export function CartContextProvider ({children}) {
-    const [cart, dispatchCartAction] = useReducer(cartReducer,{items:[]})
+export function CartContextProvider({ children }) {
+    const [cart, dispatchCartAction] = useReducer(cartReducer, { items: [] })
 
-    function addItem (item){
+    function addItem(item) {
         dispatchCartAction({
-            type : 'ADD',
+            type: 'ADD',
             item,
         })
     }
-    function removeItem (id){
+    function removeItem(id) {
         dispatchCartAction({
-            type : 'REMOVE',
+            type: 'REMOVE',
             id,
         })
     }
